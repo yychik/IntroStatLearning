@@ -119,4 +119,39 @@ for(i in 1:4)
 glm.fit6 <- glm(y~poly(x,i),data=data)
 cv.err[i] <- cv.glm(data,glm.fit6)$delta[1]
 }
-cv.err
+plot(cv.err)
+
+#9a
+library(MASS)
+attach(Boston)
+mu<-mean(medv)
+
+#9b
+std_err <- sd(medv)/sqrt(length(medv))
+
+#9c
+std.err <- function(data,index)
+{
+        return(sd(data[index])/sqrt(length(data[index])))
+}
+cf.boot<-boot(Boston$medv,std.err,R=100) #0.019 < 0.4088 > very different
+
+#9d
+cf.ttest <- t.test(Boston$medv)
+cf.lower <- mu-2*sd(cf.boot$t)
+cf.upper <- mu+2*sd(cf.boot$t)
+sd(cf.boot$t)
+#9e
+med <- median(medv)
+
+#9f
+med <- function(data,index){return(median(data[index]))}
+med.boot <- boot(Boston$medv,med,R=100)
+med.boot
+
+#9g
+mu01 <- function(data,index){return(quantile(data[index], probs=c(0.1)))}
+
+
+#9h
+boot(Boston$medv,mu01,R=100)
