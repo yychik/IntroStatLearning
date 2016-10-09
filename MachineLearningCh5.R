@@ -1,6 +1,18 @@
 #Chapter 5
 library(ISLR)
 
+#2
+d <- rep(0,10000)
+for(i in c(1:10000))
+{
+        d[i] <- 1-(1-1/i)^i
+}
+plot(d,type="l")
+
+store <- rep(NA,10000)
+for(i in 1:10000){store[i] = sum(sample(1:100, rep=TRUE)==4) > 0}
+mean(store)
+
 #Q5
 attach(Default)
 
